@@ -10,12 +10,14 @@ public class PlayerController : MonoBehaviour
     [Header("移动参数")]
     //定义player的移动速度
     public float moveSpeed;
+    public float turnspeed;
     [Header("跳跃参数")]
     //定义player的跳跃速度
     public float jumpSpeed;
 
     //定义获得按键值的两个变量
     private float horizontalMove, verticalMove;
+    private float hor, ver;
 
     //定义三位变量控制方向
     private Vector3 dir;
@@ -23,52 +25,45 @@ public class PlayerController : MonoBehaviour
     public float gravity;
     //定义y轴的加速度
     private Vector3 velocity;
-    //检测点的中心位置
-    public Transform groundCheck;
     //检测点的半径
     public float checkRadius;
     //定义需要检测的图层
     public LayerMask groundLayer;
-    [Header("检测角色状态")]
-    public bool isOnground;
-    public bool isJump;
+    public Transform playerRig;
+    public Transform cam;
+    Vector3 mDir;
     void Start()
     {
         //用GetComponent<>()方法获得CharacterController
         cc = GetComponent<CharacterController>();
     }
 
-    
     void Update()
     {
-        //使用Physics.CheckSphere()方法改变isOnground的值为true
-        isOnground = Physics.CheckSphere(groundCheck.position,checkRadius,groundLayer);
 
-        if(isOnground && velocity.y < 0)
+        if(velocity.y < 0)
         {
             velocity.y = -1f;
         }
 
         //用Input.GetAxis()方法获取按键左右移动的值
-        horizontalMove = Input.GetAxis("Horizontal") * moveSpeed;
+        hor = Input.GetAxis("Horizontal");
+        horizontalMove = hor * moveSpeed;
         //用Input.GetAxis()方法获取按键前后移动的值
-        verticalMove = Input.GetAxis("Vertical") * moveSpeed;
+        ver = Input.GetAxis("Vertical");
+        verticalMove = ver * moveSpeed;
 
-        //将方向信息存储在dir中
-        dir = transform.forward * verticalMove + transform.right * horizontalMove;
-        //用CharacterController中的Move()方法移动Player
-        cc.Move(dir * Time.deltaTime);
-
-        //当键盘按空格的时候可以完成角色的跳跃，并且使角色只能够跳跃一次
-        if (Input.GetButtonDown("Jump") && isOnground)
+        Vector3 screenRight = cam.right;             //以屏幕为参考系移动
+        Vector3 screenForward = cam.forward;
+        screenForward.y = 0;                            //不能有竖直分量
+ 
+        Vector3 sumVector = screenForward * ver + screenRight * hor;                //矢量之和
+ 
+        if (!(hor==0&&ver==0))
         {
-            velocity.y = jumpSpeed;
-            isJump = true;
+            Quaternion newRotation = Quaternion.LookRotation(sumVector);
+            transform.rotation = Quaternion.Slerp(transform.rotation,newRotation,Time.deltaTime*5.0f);
         }
-
-        //通过每秒减去重力的值不断下降
-        velocity.y -= gravity * Time.deltaTime;
-        //用CharacterController中的Move()方法移动y轴
-        cc.Move(velocity * Time.deltaTime);
+        transform.Translate(sumVector * moveSpeed * Time.deltaTime, Space.World);
     }
 }
