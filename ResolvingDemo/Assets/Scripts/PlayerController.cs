@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     public float turnspeed;
 
-    //定义获得按键值的两个变量
-    private float horizontalMove, verticalMove;
     private float hor, ver;
     public Transform cam;
     public Transform enemy;
@@ -40,10 +38,8 @@ public class PlayerController : MonoBehaviour
     private void playerMove(){
         //用Input.GetAxis()方法获取按键左右移动的值
         hor = Input.GetAxis("Horizontal");
-        horizontalMove = hor * moveSpeed;
         //用Input.GetAxis()方法获取按键前后移动的值
         ver = Input.GetAxis("Vertical");
-        verticalMove = ver * moveSpeed;
 
         Vector3 screenRight = cam.right;             //以屏幕为参考系移动
         Vector3 screenForward = cam.forward;

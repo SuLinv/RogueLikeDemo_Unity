@@ -40,11 +40,14 @@
      <Compile Include="Assets\Kawaii Slime\Scripts\GameManager.cs" />
      <Compile Include="Assets\Kawaii Slime\Cameras\Scripts\AbstractTargetFollower.cs" />
      <Compile Include="Assets\Kawaii Slime\Cameras\Scripts\FreeLookCam.cs" />
+     <Compile Include="Assets\Scripts\SurroundCamera.cs" />
      <Compile Include="Assets\Kawaii Slime\Cameras\Scripts\PivotBasedCameraRig.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Kawaii Slime\Scripts\AI\EnemyAi.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
-     <Compile Include="Assets\Scripts\SurroundCamera.cs" />
+     <Compile Include="Assets\Scripts\BuffBase.cs" />
+     <Compile Include="Assets\Scripts\BuffManager.cs" />
+     <Compile Include="Assets\Scripts\PlayerBuff.cs" />
      <None Include="Assets\Kawaii Slime\Cameras\CameraGuidelines.txt" />
      <None Include="Assets\Kawaii Slime\Shader\Unity-chan Shader Ver 1.2.1\readme.txt" />
      <None Include="Assets\Kawaii Slime\Shader\Unity-chan Shader Ver 1.2.1\Unitychan_chara_eye.shader" />
